@@ -1,0 +1,56 @@
+void navigateToARScreen(BuildContext context, String category) async {
+    // Check for camera permission before navigating to AR screens
+    if (await Permission.camera.request().isGranted) {
+      switch (category) {
+        case 'Watches':
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WatchARScreen()),
+          );
+          break;
+        case 'Wellness':
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WellnessARScreen()),
+          );
+          break;
+        case 'Jewellery':
+          // Navigate to specific AR pages based on the productID prefix
+          if (productID.startsWith('JE')) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EarARPage()),
+            );
+          } else if (productID.startsWith('JN')) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NecklaceARPage()),
+            );
+          } else if (productID.startsWith('JW')) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WristARPage()),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => JewelleryARScreen()),
+            );
+          }
+          break;
+        case 'HomePure':
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePureARScreen()),
+          );
+          break;
+        default:
+          // Handle default case or unknown category
+          break;
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Camera permission is required to use AR features.')),
+      );
+    }
+  }
